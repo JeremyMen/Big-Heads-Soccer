@@ -1,21 +1,31 @@
 class Goal {
-  constructor(ctx) {
+  constructor(ctx, x, y, img) {
     this.ctx = ctx
 
-    this.w = 150
+    this.w = 100
     this.h = 200
-    this.x = 820
-    this.y = 200
+    this.x = x
+    this.y = y
 
-    this.x0 = 30
-    this.y0 = 200
+    this.crossbar = this.y - 10
     
-
     this.img = new Image()
-    this.img.src = "images/goal-right.png"
+    this.img.src = img
+  }
 
-    this.img2 = new Image()
-    this.img2.src = "images/goal-left.png"
+  draw() {
+    this.ctx.fillRect(
+      this.x,
+      this.y,
+      this.w,
+      this.h
+    )
+  }
+
+  homeGoal(ball) {
+    const ColX = ball.x + ball.r >= this.x
+    const ColY = ball.y >= this.y
+    return ColX && ColY
   }
 
   draw() {
@@ -27,12 +37,12 @@ class Goal {
       this.h
     )
 
-    this.ctx.drawImage(
-      this.img2,
-      this.x0,
-      this.y0,
-      this.w,
-      this.h
-    )
+  //   this.ctx.drawImage(
+  //     this.img2,
+  //     this.x0,
+  //     this.y0,
+  //     this.w,
+  //     this.h
+  //   )
   }
 }

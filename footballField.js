@@ -7,7 +7,7 @@ class FootballField {
     this.y = 0
 
     this.img = new Image()
-    this.img.src = "images/football-field.jpeg"
+    this.img.src = "images/football-field.jpg"
   }
 
   draw() {
@@ -18,5 +18,20 @@ class FootballField {
       this.w,
       this.h
     )
+  }
+
+  rightWall(el) {
+    return el.x + el.w >= this.ctx.canvas.width
+  }
+  
+  leftWall(el) {
+    return el.x - el.w <= 0 
+  }
+
+  isRoof(el) {
+    return el.y <= 0 
+  }
+  isFloor(el) {
+    return el.y + el.h >= this.ctx.canvas.height * 0.83
   }
 }
