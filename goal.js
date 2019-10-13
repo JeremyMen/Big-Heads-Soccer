@@ -11,21 +11,20 @@ class Goal {
     
     this.img = new Image()
     this.img.src = img
-  }
 
-  draw() {
-    this.ctx.fillRect(
-      this.x,
-      this.y,
-      this.w,
-      this.h
-    )
+    this.goalAudio = new Audio('sounds/goal.mp3')
   }
 
   homeGoal(ball) {
-    const ColX = ball.x + ball.r >= this.x
-    const ColY = ball.y >= this.y
-    return ColX && ColY
+    const colX = ball.x + ball.w / 3 >= this.x
+    const colY = ball.y >= this.y
+    return colX && colY
+  }
+
+  awayGoal(ball) {
+    const colX = ball.x + ball.w / 2 <= this.x + this.w
+    const colY = ball.y >= this.y
+    return colX && colY
   }
 
   draw() {
@@ -36,13 +35,5 @@ class Goal {
       this.w,
       this.h
     )
-
-  //   this.ctx.drawImage(
-  //     this.img2,
-  //     this.x0,
-  //     this.y0,
-  //     this.w,
-  //     this.h
-  //   )
   }
 }

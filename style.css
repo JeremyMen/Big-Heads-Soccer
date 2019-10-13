@@ -1,8 +1,32 @@
 canvas {
-  border: 1px solid black;
+  border: 5px solid black;
 }
 
-div {
-  display: flex;
-  justify-content: center;
+h1 {
+  font-family: 'Impact';
+}
+
+#main-game{
+  margin: 0 auto;
+}
+
+.hide {
+  display: none;
+}
+
+.start-game {
+  position: relative;
+  background: url('images/start-background.jpg') 0, 0, no-repeat;
+  border: 5px solid black;
+  background-size: cover;
+  margin: 0 auto;
+  width: 1000px;
+  height: 600px;
+}
+
+button {
+  position: absolute;
+  bottom: 200px;
+  height:fit-content;
+  font-family: 'Impact';
 }
