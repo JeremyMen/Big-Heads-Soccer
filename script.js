@@ -10,13 +10,12 @@ const LEFT_KEY = 37
 const TOP_KEY_W = 87
 const RIGHT_KEY_D = 68
 const LEFT_KEY_A = 65
+const NEW_GAME = 78
 
 const startButton = document.getElementById('start-game-btn')
 const startPage = document.getElementById('start-page')
 const startAudio = new Audio('sounds/uefa-champions-league-leagu.mp3')
 const refereeStart = new Audio('sounds/referee-start.mp3')
-
-//const startAudioButton = new Audio('sounds/guns-shot.mp3')
 
 const game = new Game(ctx)
 
@@ -49,7 +48,9 @@ document.onkeyup = (e) => {
   }
 }
 
-startAudio.play()
+if (startPage.getAttribute('class') !== 'hide') {
+  startAudio.play()
+}
 
 startButton.onclick = () => {
   startAudio.pause()

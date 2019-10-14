@@ -15,6 +15,8 @@ class Player {
 
     this.img = new Image()
     this.img.src = img
+
+    this.jumpAudio = new Audio('sounds/jump.mp3')
   }
 
   draw() {
@@ -59,6 +61,7 @@ class Player {
 
   jump() {
     if (!this._isJumping()){
+      this.jumpAudio.play()
       this.y -= 1;
       this.vy -= 15;
     }

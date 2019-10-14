@@ -11,10 +11,16 @@ class Celebration {
 
     this.putinDanceImg = new Image()
     this.putinDanceImg.src = "images/putin-dance.png"
-    this.putinDanceImg.frames = 11
+    this.putinDanceImg.frames = 16
     this.putinDanceImg.frameIndex = 0
 
     this.putinTick = 0
+
+    this.trump = new Image()
+    this.trump.src = "images/trump-game-over.png"
+
+    this.putin = new Image()
+    this.putin.src = "images/putin-game-over.png"
   }
 
   trumpDub() {
@@ -68,8 +74,23 @@ class Celebration {
 
       this.putinDanceImg.frameIndex++
     }
-    if (this.putinDanceImg.frameIndex === 11) {
+    if (this.putinDanceImg.frameIndex === 16) {
       this.putinDanceImg.frameIndex = 0
     }
+  }
+
+  putinGameOver() {
+    this.ctx.drawImage(
+      this.putin,
+      this.ctx.canvas.width / 2 - 100,
+      this.ctx.canvas.height / 2 - 100
+    )
+  }
+  trumpGameOver() {
+    this.ctx.drawImage(
+      this.trump,
+      this.ctx.canvas.width / 2 - 100,
+      this.ctx.canvas.height / 2 - 100
+    )
   }
 }

@@ -67,13 +67,14 @@ class Game {
 
     this.intervalId = setInterval( () => {
       this._draw()
+      this._isGoal()
       if(!this.pause){
         this._move()
       }
-      if (this.pause && this.homeScore > this.homeScore0 && this.homeScore !== 3) {
+      if (this.pause && this.homeScore > this.homeScore0 && this.homeScore <= 3) {
         this.printGoal()
         this.celebrations.trumpDub()
-      } else if (this.pause && this.awayScore > this.awayScore0 && this.awayScore !== 3) {
+      } else if (this.pause && this.awayScore > this.awayScore0 && this.awayScore <= 3) {
         this.printGoal()
         this.celebrations.putinDance()
       }
@@ -82,24 +83,25 @@ class Game {
       this._ballAgainstWalls()
       this._ballAgainstPlayers()
       this._ballAgainstGoals()
-      this._isGoal()
     }, 1000 / 60)
   }
 
   _draw() {
     this.footballField.draw()
     this.tickBomb ++
-    if (this.tickBomb > Math.random() * 500000) {
-      this.tick = 0
+    if (this.tickBomb > Math.random() * 10000) {
+      this.tickBomb = 0
       this._addBomb()
     }
-    this.p1.draw()
-    this.p2.draw()
-    this.ball.draw()
-    this.goal1.draw()
-    this.goal2.draw()
-    this.bombs.forEach(b => b.draw())
-    this._printScore()
+    if (!this.pause) {
+      this.p1.draw()
+      this.p2.draw()
+      this.ball.draw()
+      this.goal1.draw()
+      this.goal2.draw()
+      this.bombs.forEach(b => b.draw())
+      this._printScore()
+    }
   }
 
   _move() {
@@ -110,6 +112,7 @@ class Game {
       this.p2.move()
     }
     this.ball.move()
+
     this.bombs.forEach(b => b.move())
   }
 
@@ -146,6 +149,7 @@ class Game {
     this.bombs = this.bombs.filter(b => {
       return b.y + b.h <= this.ctx.canvas.height * 0.85
     })
+    
   }
 
   _freezy(redImg, img, player) {
@@ -159,8 +163,9 @@ class Game {
 
   _bombAgainstPlayers(player) {
     const colP = this.bombs.some(b =>{
+      let floorCol = b.y + b.h >= this.ctx.canvas.height * 0.85
       let col = b.collide(player)
-      if (col) {
+      if (col || floorCol) {
         b.explosionAudio.play()
         b.y = 600
       }
@@ -191,10 +196,12 @@ class Game {
       this.ball.bounceGrassAudio.play()
     }else if (this.footballField.isFloor(this.ball)) {
       this.ball.floorCollision()
-      this.ball.bounceGrassAudio.play()
     }else if (this.footballField.isRoof(this.ball)) {
        this.ball.roofCollision()
-     }
+    }
+    if (this.ball.y + this.ball.h > this.ctx.canvas.height * 0.85 - 5  && this.ball.vy < -1 ){
+      this.ball.bounceGrassAudio.play()
+    }
   }
 
   _ballAgainstPlayers() {
@@ -236,13 +243,11 @@ class Game {
     if (this.ball.underOf(this.goal2)){
       this.ball.vx -= 0.06
     }else if (this.ball.onTop(this.goal2)) {
-      // this.ball.bounceMetalAudio.play()
       this.ball.regularBounce(this.goal2)
       this.ball.vx -= 1
     }else if (this.ball.underOf(this.goal1)){
       this.ball.vx += 0.06
     }else if (this.ball.onTop(this.goal1)) {
-      // this.ball.bounceMetalAudio.play()
       this.ball.regularBounce(this.goal1)
       this.ball.vx += 1
     }
@@ -259,6 +264,7 @@ class Game {
       this.restartGame()
     }
   }
+
   restartGame() {
     this.pause = true
       setTimeout(() => {
@@ -281,22 +287,26 @@ class Game {
   _gameOver() {
     this.mainAudio.pause()
     clearInterval(this.intervalId)
+    this.footballField.draw()
     this.refereeEnd.play()
-    this.ctx.font = "40px Impact";
-    this.ctx.textAlign = "center";
+    this.ctx.font = "30px Impact";
+    this.ctx.textAlign = "start";
     if(this.homeScore > this.awayScore){
-      this.ctx.fillText(
-        `TRUMP WINS THE WAR! ...EHM, THE MATCH!`,
-        this.ctx.canvas.width / 2,
-        this.ctx.canvas.height / 2
-      ) 
+      this.celebrations.putinGameOver()
+       
     } else {
-      this.ctx.fillText(
-        `PUTIN WINS THE WAR! ...EHM, THE MATCH!`,
-        this.ctx.canvas.width / 2,
-        this.ctx.canvas.height / 2
-      )
+      this.celebrations.trumpGameOver()
+      
     }
+    this.ctx.fillText(
+      `YOU MAY HAVE WON THE BATTLE,`,
+      100,
+      this.ctx.canvas.height / 2
+    ) 
+    this.ctx.fillText(
+      `BUT YOU HAVE NOT WON THE WAR!`,
+      100,
+      this.ctx.canvas.height / 2 + 50
+    )
   }
-  
 }

@@ -17,8 +17,8 @@ class Ball {
     this.img.frames = 12
     this.img.frameIndex = 0
 
-    this.bounceAudio = new Audio ('sounds/ball-vs-ground2 (mp3cut.net) (1).wav')
-    this.bounceGrassAudio = new Audio ('sounds/ball-vs-grass (mp3cut.net).mp3')
+    this.bounceAudio = new Audio ('sounds/ball-vs-ground.wav')
+    this.bounceGrassAudio = new Audio ('sounds/ball-vs-grass.mp3')
     // this.bounceMetalAudio = new Audio ('sounds/metal-bar.wav')
   }
 
@@ -129,6 +129,7 @@ class Ball {
   floorCollision() {
     this.vy *= -1
     this.y = this.ctx.canvas.height * 0.85 - this.h
+
   }
 
   roofCollision() {
